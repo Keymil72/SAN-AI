@@ -16,7 +16,7 @@ async function Send() {
         _result?.forEach(async (row) => {
             let _pendingEmbed = await embed.PendingNews(row);
 
-            if (_pendingEmbed == null) new Error("Embed is not well formatted.");
+            if (_pendingEmbed == null) throw new Error("Embed is not well formatted.");
 
             let _message = await _channel.send({ embeds: [_pendingEmbed] });
 
@@ -40,7 +40,7 @@ async function AutoUpdateToAccepted() {
             let _messageId = getter.GetPendingNewsRecordByNewsId(row.id);
             let _message = client.channels.cache.get(newsChannelId).messages.fetch(_messageId);
 
-            if (_message == null) new Error(`No message found related to newsId: ${row.id}.`);
+            if (_message == null) throw new Error(`No message found related to newsId: ${row.id}.`);
 
             await _message.delete();
 
