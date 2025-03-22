@@ -1,0 +1,19 @@
+{
+    "botIcon": "YOUR_BOT_ICON_URL",
+    "authorUrl": "YOUR_AUTHOR_EMBED_URL",
+
+    "newsIcon": "YOUR_NEWS_ICON_URL",
+    "newsChannelId": "YOUR_NEWS_CHANNEL_ID",
+
+    "starEmoji": "⭐",
+
+    "newsSites": [
+        "YOUR_NEWS_SITE_URL",
+        "YOUR_NEWS_SITE_URL"
+    ],
+
+    "newsApis": [
+        "YOUR_NEWS_API_URL",
+        "YOUR_NEWS_API_URL"
+    ]
+}

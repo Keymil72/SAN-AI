@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    image: "postgres:17.4"
+    container_name: "postgres"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "YOUR_DATABASE_USER"
+      POSTGRES_PASSWORD: "YOUR_DATABASE_PASSWORD"
+      POSTGRES_DB: "YOUR_DATABASE_NAME"
+    ports:
+      - 5432:5432
+volumes:
+  db_data:

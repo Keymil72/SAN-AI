@@ -1,0 +1,12 @@
+{
+    "token": "YOUR_DISCORD_BOT_TOKEN",
+    "guildId": "YOUR_DISCORD_GUILD_ID",
+    "clientId": "YOUR_DISCORD_CLIENT_ID",
+    "dbHost": "YOUR_DATABASE_HOST",
+    "dbName": "YOUR_DATABASE_NAME",
+    "dbPort": YOUR_DATABASE_PORT_NUMBER(BASIC_IS_5432),
+    "dbUser": "YOUR_DATABASE_USER",
+    "dbPassword": "YOUR_DATABASE_PASSWORD",
+    "dbMaxConnections": YOUR_DATABASE_MAX_CONNECTIONS,
+    "dbIdleTimeoutMillis": YOUR_DATABASE_IDLE_TIMEOUT_MILLIS
+}

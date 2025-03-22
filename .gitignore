@@ -1,0 +1,5 @@
+node_modules/
+package-lock.json
+src/newsConfig.json
+src/config.json
+postgreSQL/docker-compose.yml

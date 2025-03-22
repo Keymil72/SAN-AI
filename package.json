@@ -1,0 +1,32 @@
+{
+  "name": "san-ai-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for SAN-AI IT newsletter",
+  "main": "src/Main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "Bot",
+    "AI",
+    "SAN",
+    "SAN-AI",
+    "IT",
+    "news"
+  ],
+  "author": "Keymil72",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "fs": "^0.0.1-security",
+    "kysely": "^0.27.6",
+    "moment-timezone": "^0.5.47",
+    "node-cron": "^3.0.3",
+    "path": "^0.12.7",
+    "pg": "^8.13.3",
+    "san-ai-bot": "file:"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
