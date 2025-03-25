@@ -1,5 +1,3 @@
-const { STATUS } = require("../Database/Enums/Statuses");
-
 const dbConnection = require("./DBConnection");
 const logger = require("../Utility/Logger");
 
@@ -19,7 +17,7 @@ async function InsertRecordToPendingNewsTable(messageId, newsId) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }

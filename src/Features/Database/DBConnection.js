@@ -23,7 +23,7 @@ async function initializeDatabase() {
             dialect: new PostgresDialect({ pool }),
         });
     } catch (ex) {
-        logger.Warn(ex.message, ex.stack);
+        logger.LogWarn(ex.message, ex.stack);
         return null;
     }
 }
@@ -33,7 +33,7 @@ async function checkConnection() {
         const db = await initializeDatabase();
 
         if (db === null) {
-            logger.Warn("Unable to establish a connection to database.", __filename);
+            logger.LogWarn("Unable to establish a connection to database.", __filename);
             return false;
         }
 
@@ -41,7 +41,7 @@ async function checkConnection() {
 
         return true;
     } catch (ex) {
-        logger.Warn(`Connection check failed: ${ex.message}`, ex.stack);
+        logger.LogWarn(`Connection check failed: ${ex.message}`, ex.stack);
         return false;
     }
 }
@@ -52,7 +52,7 @@ async function getDB() {
     if (isConnected) {
         return await initializeDatabase();
     } else {
-        logger.Error("Could not establish a connection to the database.", __filename);
+        logger.LogError("Could not establish a connection to the database.", __filename);
         return null;
     }
 }

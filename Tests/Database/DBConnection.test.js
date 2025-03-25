@@ -48,7 +48,7 @@ describe("DBConnection", () => {
 
         const db = await getDB();
         expect(db).toBeNull();
-        expect(logger.Warn).toHaveBeenCalledWith("Connection check failed: Query error", expect.any(String));
-        expect(logger.Error).toHaveBeenCalledWith("Could not establish a connection to the database.", expect.any(String));
+        expect(logger.LogWarn).toHaveBeenCalledWith("Connection check failed: Query error", expect.any(String));
+        expect(logger.LogError).toHaveBeenCalledWith("Could not establish a connection to the database.", expect.any(String));
     });
 });

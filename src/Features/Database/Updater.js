@@ -7,7 +7,7 @@ async function UpdateNewsStatusById(id, status) {
     const DB = await dbConnection.getDB();
 
     if (!Object.values(STATUS).some(item => item.text == status))
-        logger.Warn(`Invalid status: ${status}`, __filename);
+        logger.LogWarn(`Invalid status: ${status}`, __filename);
 
     try {
         if (!DB) throw new Error("Database connection is not established.");
@@ -20,7 +20,7 @@ async function UpdateNewsStatusById(id, status) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }

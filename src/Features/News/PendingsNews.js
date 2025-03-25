@@ -27,7 +27,7 @@ async function Send() {
             await _message.react("❌");
         });
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
     }
 }
 
@@ -49,7 +49,7 @@ async function AutoUpdateToAccepted() {
             }
         });
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
     }
 }
 

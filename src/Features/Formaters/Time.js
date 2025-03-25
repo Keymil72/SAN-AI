@@ -1,20 +1,17 @@
 const moment = require("moment-timezone");
 
-const logger = require("../Utility/Logger");
-
 function FormatToWarsaw(timeStamp) {
-        let _dateTime = moment(timeStamp);
+    let _dateTime = moment(timeStamp);
 
-        if (_dateTime.isValid()) {
-            return moment(timeStamp)
-                .tz("Europe/Warsaw")
-                .format("HH:mm DD.MM.YYYY");
-        }else{
-            return moment()
-                .tz("Europe/Warsaw")
-                .format("HH:mm DD.MM.YYYY");
-        }
-
+    if (_dateTime.isValid()) {
+        return moment(timeStamp)
+            .tz("Europe/Warsaw")
+            .format("HH:mm DD.MM.YYYY");
+    }else{
+        return moment()
+            .tz("Europe/Warsaw")
+            .format("HH:mm DD.MM.YYYY");
+    }
 }
 
 function FromatForLog() {

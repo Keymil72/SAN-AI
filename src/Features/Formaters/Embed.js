@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { botIcon, authorUrl, newsIcon } = require("../../newsConfig.json");
+const { botIcon, authorUrl } = require("../../newsConfig.json");
 
 const { STATUS } = require("../Database/Enums/Statuses");
 
@@ -16,7 +16,7 @@ async function PendingNews(news) {
             .setColor(STATUS.PENDING.color)
             .setTitle(news.title)
             .setURL(news.directlink)
-            .setAuthor({ name: client.user.username, iconURL: newsIcon, url: authorUrl })
+            .setAuthor({ name: client.user.username, iconURL: STATUS.SENT.icon, url: authorUrl })
             .setDescription(news.description)
             .setThumbnail(STATUS.PENDING.icon)
             .addFields(
@@ -29,7 +29,7 @@ async function PendingNews(news) {
 
         return _embed;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -56,7 +56,7 @@ async function News(news) {
 
         return _embed;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -70,7 +70,7 @@ async function AcceptedNews(news) {
             .setColor(STATUS.ACCEPTED.color)
             .setTitle(news.title)
             .setURL(news.directlink)
-            .setAuthor({ name: client.user.username, iconURL: newsIcon, url: authorUrl })
+            .setAuthor({ name: client.user.username, iconURL: STATUS.SENT.icon, url: authorUrl })
             .setDescription(news.description)
             .setThumbnail(STATUS.ACCEPTED.icon)
             .addFields(
@@ -83,7 +83,7 @@ async function AcceptedNews(news) {
 
         return _embed;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -97,7 +97,7 @@ async function RejectedNews(news) {
             .setColor(STATUS.REJECTED.color)
             .setTitle(news.title)
             .setURL(news.directlink)
-            .setAuthor({ name: client.user.username, iconURL: newsIcon, url: authorUrl })
+            .setAuthor({ name: client.user.username, iconURL: STATUS.SENT.icon, url: authorUrl })
             .setDescription(news.description)
             .setThumbnail(STATUS.PENDING.icon)
             .addFields(
@@ -110,7 +110,7 @@ async function RejectedNews(news) {
 
         return _embed;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }

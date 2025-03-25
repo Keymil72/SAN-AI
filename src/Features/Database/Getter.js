@@ -7,7 +7,7 @@ async function GetNews(status) {
     const DB = await dbConnection.getDB();
 
     if (!Object.values(STATUS).some(item => item.text === status)) {
-        logger.Warn(`Invalid status: ${status}`, __filename);
+        logger.LogWarn(`Invalid status: ${status}`, __filename);
         return null;
     }
 
@@ -22,7 +22,7 @@ async function GetNews(status) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -41,7 +41,7 @@ async function GetNewsById(id) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -60,7 +60,7 @@ async function GetPendingNewsRecordByMessageId(id) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }
@@ -79,7 +79,7 @@ async function GetPendingNewsRecordByNewsId(id) {
 
         return result;
     } catch (ex) {
-        logger.Error(ex.message, ex.stack);
+        logger.LogError(ex.message, ex.stack);
         return null;
     }
 }

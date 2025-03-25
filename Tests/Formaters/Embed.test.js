@@ -1,9 +1,5 @@
 const embed = require("../../src/Features/Formaters/Embed");
-const { EmbedBuilder } = require("discord.js");
-const time = require("../../src/Features/Formaters/Time");
 const logger = require("../../src/Features/Utility/Logger");
-const { STATUS } = require("../../src/Features/Database/Enums/Statuses");
-const { botIcon, authorUrl, newsIcon } = require("../../src/newsConfig.json");
 
 jest.mock("discord.js", () => ({
     EmbedBuilder: jest.fn().mockImplementation(() => ({
@@ -33,7 +29,7 @@ describe("PendingNews", () => {
 
         const _embed = await embed.PendingNews(news);
 
-        expect(logger.Error).toHaveBeenCalled();
+        expect(logger.LogError).toHaveBeenCalled();
         expect(_embed).toBeNull();
     });
 

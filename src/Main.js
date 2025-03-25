@@ -44,7 +44,7 @@ function start() {
 			if ('data' in command && 'execute' in command) {
 				client.commands.set(command.data.name, command);
 			} else {
-				logger.Warn(`Command ${filePath} does not contain the property "data" or "execute".`, __filename);
+				logger.LogWarn(`Command ${filePath} does not contain the property "data" or "execute".`, __filename);
 			}
 		}
 	}
@@ -75,14 +75,14 @@ function start() {
 		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) {
-			logger.Error(`Unsupported command "${interaction.commandName}".`, __filename);
+			logger.LogError(`Unsupported command "${interaction.commandName}".`, __filename);
 			return;
 		}
 
 		try {
 			await command.execute(interaction);
 		} catch (ex) {
-			logger.Error(ex.message, ex.stack);
+			logger.LogError(ex.message, ex.stack);
 
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp({ content: 'Podczas wykonywania polecenia wystąpił nie oczekiwany błąd!', ephemeral: true });

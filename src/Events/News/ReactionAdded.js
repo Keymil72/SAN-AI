@@ -63,7 +63,7 @@ module.exports = {
             await reaction.message.edit({ embeds: [embed] });
 
         } catch (ex) {
-            logger.Warn(ex.message, ex.stack);
+            logger.LogWarn(ex.message, ex.stack);
         }
     },
 };

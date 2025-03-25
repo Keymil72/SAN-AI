@@ -23,7 +23,7 @@ function Deploy() {
 			if ('data' in command && 'execute' in command) {
 				commands.push(command.data.toJSON());
 			} else {
-				logger.Warn(`Command ${filePath} does not contain the property "data" or "execute".`, __filename);
+				logger.LogWarn(`Command ${filePath} does not contain the property "data" or "execute".`, __filename);
 			}
 		}
 	}
@@ -32,12 +32,12 @@ function Deploy() {
 
 
 	rest.put(Routes.applicationCommands(clientId), { body: [] })
-		.then(() => logger.Info('All application commands have been removed.'))
-		.catch(ex => logger.Error(ex.message, ex.stack));
+		.then(() => logger.LogInfo('All application commands have been removed.'))
+		.catch(ex => logger.LogError(ex.message, ex.stack));
 
 	(async () => {
 		try {
-			logger.Info(`Loaded ${commands.length} application commands (/) commands.`);
+			logger.LogInfo(`Loaded ${commands.length} application commands (/) commands.`);
 
 			//NOTE - Update the global application slash commands using Discord's REST API
 			// const data = await rest.put(
@@ -51,9 +51,9 @@ function Deploy() {
 				{ body: commands },
 			);
 
-			logger.Info(`Loaded ${data.length} application commands (/) commands.`);
+			logger.LogInfo(`Loaded ${data.length} application commands (/) commands.`);
 		} catch (ex) {
-			logger.Error(ex.message, ex.stack);
+			logger.LogError(ex.message, ex.stack);
 		}
 	})();
 }
