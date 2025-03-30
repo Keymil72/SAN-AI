@@ -1,5 +1,6 @@
 const dbConnection = require("./DBConnection");
 const logger = require("../Utility/Logger");
+const getter = require("./Getter");
 
 // TODO - tests needed
 async function InserNews(news) {
@@ -7,6 +8,7 @@ async function InserNews(news) {
 
     try {
     if (!DB) throw new Error("Database connection is not established.");
+    if (await IsNewsExists(news.title)) throw new Error("News already exists.");
 
     const result = await DB
         .insertInto('news')
@@ -30,11 +32,21 @@ async function InserNewsFromList(newsList) {
     const DB = await dbConnection.getDB();
 
     try {
+        let _notExistingNews = [];
+
         if (!DB) throw new Error("Database connection is not established.");
+
+        newsList.forEach(async (news) => {
+            if (await IsNewsExists(news.title)) {
+                logger.LogWarn(`News already exists: ${news.title}`, __filename);
+            } else {
+                _notExistingNews.push(news);
+            }
+        });
 
         const result = await DB
             .insertInto('news')
-            .values(newsList)
+            .values(_notExistingNews)
             .executeTakeFirst()
 
         return result;
@@ -61,6 +73,15 @@ async function InsertRecordToPendingNewsTable(messageId, newsId) {
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }
+}
+
+// TODO - tests needed
+async function IsNewsExists(title) {
+    getter.GetNewsByTitle(title).then((result) => {
+        return result;
+    }).catch((ex) => {
+        logger.LogError(ex.message, ex.stack);
+    });
 }
 
 module.exports = { InserNews, InserNewsFromList, InsertRecordToPendingNewsTable };

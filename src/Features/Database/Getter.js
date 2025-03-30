@@ -46,6 +46,26 @@ async function GetNewsById(id) {
     }
 }
 
+// TODO - tests needed
+async function GetNewsByTitle(title) {
+    const DB = await dbConnection.getDB();
+
+    try {
+        if (!DB) throw new Error("Database connection is not established.");
+
+        const result = await DB
+            .selectFrom("news")
+            .where("title", "=", title)
+            .selectFirst()
+            .execute();
+
+        return result;
+    } catch (ex) {
+        logger.LogError(ex.message, ex.stack);
+        return null;
+    }
+}
+
 async function GetPendingNewsRecordByMessageId(id) {
     const DB = await dbConnection.getDB();
 
@@ -84,4 +104,4 @@ async function GetPendingNewsRecordByNewsId(id) {
     }
 }
 
-module.exports = { GetNews, GetNewsById, GetPendingNewsRecordByMessageId, GetPendingNewsRecordByNewsId };
+module.exports = { GetNews, GetNewsById, GetNewsByTitle, GetPendingNewsRecordByMessageId, GetPendingNewsRecordByNewsId };
