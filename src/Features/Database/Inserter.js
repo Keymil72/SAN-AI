@@ -7,19 +7,18 @@ async function InserNews(news) {
     const DB = await dbConnection.getDB();
 
     try {
-    if (!DB) throw new Error("Database connection is not established.");
-    if (await IsNewsExists(news.title)) throw new Error("News already exists.");
+        if (!DB) throw new Error("Database connection is not established.");
+        if (await IsNewsExists(news.title)) throw new Error("News already exists.");
 
-    const result = await DB
-        .insertInto('news')
-        .values({
-            title: news.title,
-            link: news.link,
-            description: news.description,
-            date: news.date,
-            source: news.source
-        })
-        .executeTakeFirst()
+        const result = await DB
+            .insertInto('news')
+            .values({
+                title: news.title,
+                link: news.link,
+                description: news.description,
+                source: news.source
+            })
+            .executeTakeFirst()
 
         return result;
     }catch (ex) {

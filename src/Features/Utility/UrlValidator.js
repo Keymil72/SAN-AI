@@ -1,9 +1,7 @@
 
 // TODO - tests needed
 async function isUrlValid(url) {
-    if (!isValidURL(url)) {
-        return false;
-    }
+    if (!isValidURL(url)) return false;
 
     const isReachable = await isUrlReachable(url);
 

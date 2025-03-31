@@ -24,21 +24,25 @@ async function GetNews(){
                 .each( async function (i) {
                 if (_content(this).find('strong').text() !== '') {
                     const _title = _content(this).find('strong').text();
+
                     let _link = _content(this).find('a').attr('href');
                     let _description = _content(this).find('span').text();
-                    _description = _description.slice(_description.indexOf('INFO: ')+6, _description.length);
 
+                    _description = _description.slice(_description.indexOf('INFO: ')+6, _description.length);
                     _link = await urlValidator.isUrlValid(_link) ? _link : url;
+
                     const news = new newsBuilder.NewsBuilder()
                         .setTitle(_title)
                         .setDescription(_description)
                         .setLink(_link)
                         .setSource(url)
                         .build();
+
                     newsList.push(news);
                 }
             });
         });
+
         await inserter.InserNewsFromList(newsList);
         logger.LogInfo(`${newsList.length} news from unKnowNews inserted to DB.`);
     }catch (ex){
