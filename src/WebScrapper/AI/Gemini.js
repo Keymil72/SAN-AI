@@ -1,20 +1,28 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const logger = require("../../Features/Utility/Logger");
+const { gemini_API_KEY } = require("../../config");
 
-const GEN_AI = new GoogleGenerativeAI();
+const GEN_AI = new GoogleGenerativeAI(gemini_API_KEY);
 
 async function AskGeminiForPickNews(newsList) {
-    const NEWS_TITLES = GetNewsTitles(newsList);
+    try {
+        const _NEWS_TITLES = GetNewsTitles(newsList);
 
-    const MODEL = GEN_AI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const PROMPT = `Review the following news titles ${NEWS_TITLES} and select the ones that are most interesting for IT/Technology people, then output the indexes of the interesting ones write only numbers separated by commas.`;
+        if (_NEWS_TITLES?.length === 0) throw new Error("No news titles found.");
 
-    const RESULT = await MODEL.generateContent(PROMPT);
-    const RESPONSE = RESULT.response;
-    const TEXT = RESPONSE.text();
+        const MODEL = GEN_AI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const PROMPT = `Review the following news titles ${_NEWS_TITLES} and select the ones that are most interesting for IT/Technology people, then output the indexes of the interesting ones write only numbers separated by commas.`;
 
-    return TEXT;
+        const RESULT = await MODEL.generateContent(PROMPT);
+        const RESPONSE = RESULT.response;
+        const TEXT = RESPONSE.text();
+
+        return TEXT;
+    }catch (ex) {
+        logger.LogError(ex.message, ex.stack);
+        return null;
+    }
 }
 
 // TODO - test needed
@@ -22,7 +30,7 @@ async function AskGeminiForPickNews(newsList) {
 function GetNewsTitles(newsList){
     let newsTitles = [];
 
-    newsList.each((news) => {
+    newsList?.each((news) => {
         newsTitles.push(news.title);
     });
 
@@ -31,6 +39,7 @@ function GetNewsTitles(newsList){
 
 async function GetIntrestingNews(newsList){
     let interestingNewsList = [];
+
     AskGeminiForPickNews(newsList).then((response) => {
         let _ids = response.split(',');
 
