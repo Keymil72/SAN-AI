@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const logger = require('../../Features/Utility/Logger');
 const inserter = require('../../Features/Database/Inserter');
 const urlValidator = require('../../Features/Utility/UrlValidator');
-const newsBuilder = require('../Features/Utility/NewsBuilder');
+const newsBuilder = require('../Utility/NewsBuilder');
 
 const url = 'https://unknow.news/last';
 
@@ -18,6 +18,7 @@ async function GetNews(){
         axios(url).then((response) => {
             const _html = response.data;
             const _content = cheerio.load(_html);
+
             _content('ol', _html)
                 .first()
                 .find('li')
