@@ -26,7 +26,7 @@ async function InserNews(news) {
     }
 }
 
-// TODO - tests needed
+// TODO - tests needed and remove "'" from title and description with getter posibility, _notExistingNews == 0
 async function InserNewsFromList(newsList) {
     const DB = await dbConnection.getDB();
 

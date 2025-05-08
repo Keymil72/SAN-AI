@@ -1,3 +1,4 @@
+const { sql } = require('kysely');
 const { STATUS } = require("./Enums/Statuses");
 
 const dbConnection = require("./DBConnection");
@@ -16,7 +17,7 @@ async function GetNews(status) {
 
         const result = await DB
             .selectFrom("news")
-            .where("status", "=", status)
+            .where(sql`status = ${status}`)
             .selectAll()
             .execute();
 
@@ -36,7 +37,7 @@ async function GetNewsById(id) {
         const result = await DB
             .selectFrom("news")
             .where("id", "=", id)
-            .selectFirst()
+            .limit(1)
             .execute();
 
         return result;
@@ -52,11 +53,12 @@ async function GetNewsByTitle(title) {
 
     try {
         if (!DB) throw new Error("Database connection is not established.");
+        const value = title.replace(/'/g, "''");
 
         const result = await DB
             .selectFrom("news")
-            .where("title", "=", title)
-            .selectFirst()
+            .where(sql`title = ${value}`)
+            .limit(1)
             .execute();
 
         return result;

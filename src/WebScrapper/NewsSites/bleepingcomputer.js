@@ -13,16 +13,19 @@ async function GetNews(){
     logger.LogInfo('Trying to get news from unKnowNews...');
 
     try {
-        let newsList = [];
+        const newsList = [];
+        const response = await axios(url);
+        const _html = response.data;
+        let _content = cheerio.load(_html);
 
-        axios(url).then((response) => {
-            const _html = response.data;
-            const _content = cheerio.load(_html);
+        const tasks = [];
 
-            _content('#bc-home-news-main-wrap', _html)
-                .first()
-                .find('li')
-                .each( async function (i) {
+        _content('#bc-home-news-main-wrap', _html)
+            .first()
+            .find('li')
+            .each( async function (i) {
+
+            const task = (async () => {
                 if (_content(this).find('.bc_latest_news_text')) {
                     let _title = _content(this).find('h4').find('a').text();
                     if (_title.length < 1)
@@ -43,13 +46,19 @@ async function GetNews(){
                    newsList.push(news);
 
                 }
-            });
+            })();
+            tasks.push(task);
         });
 
+        await Promise.all(tasks);
+
         await inserter.InserNewsFromList(newsList);
-        logger.LogInfo(`${newsList.length} news from unKnowNews inserted to DB.`);
+
+        logger.LogInfo(`${newsList.length} news from bleepingcomputer inserted to DB.`);
+        return true;
     }catch (ex){
         logger.LogError(ex.message, ex.stack);
+        return false;
     }
 }
 

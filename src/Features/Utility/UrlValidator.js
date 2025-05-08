@@ -1,5 +1,5 @@
+const logger = require("./Logger");
 
-// TODO - tests needed
 async function isUrlValid(url) {
     if (!isValidURL(url)) return false;
 
@@ -14,6 +14,18 @@ async function isUrlReachable(url){
         const response = await fetch(url, { method: 'HEAD' });
         return response.ok;
     } catch (error) {
+        logger.LogError(error.message, error.stack);
+        return false;
+    }
+}
+
+function isValidURL(url) {
+    try {
+        new URL(url);
+        return true;
+    }
+    catch (ex) {
+        logger.LogError(ex.message, ex.stack);
         return false;
     }
 }

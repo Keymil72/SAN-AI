@@ -4,6 +4,7 @@
 
     "newsIcon": "YOUR_NEWS_ICON_URL",
     "newsChannelId": "YOUR_NEWS_CHANNEL_ID",
+    "newsAcceptanceChannelId": "YOUR_NEWS_ACCEPTANCE_CHANNEL_ID",
 
     "starEmoji": "⭐",
 

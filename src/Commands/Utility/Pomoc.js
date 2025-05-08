@@ -16,17 +16,23 @@ module.exports = {
         let _embedPomoc = new EmbedBuilder()
             .setTitle("Dostępne komendy bota SAN-AI")
             .setDescription(`Dodatkowo dostępne są kanały z news'ami z IT.`)
-            .setColor("#992D22")
+            .setColor("#183771")
             .addFields(
+                {
+                    name: "/pobierz-newsy",
+                    value: "Pobiera ręcznie newsy ze źródeł i dodaje je do bazy danych",
+                },
                 {
                     name: "/pomoc ",
                     value: "Wyświetla dostępne komendy i ich informacje",
                 },
-                { name: "sd", value: "sdd" }
+                {
+                    name: "/ustaw-kanal",
+                    value: "Ustawia kanał wzależności od opcji, na którym bot będzie wysyłał newsy lub newsy do akceptacji",
+                }
             )
             .setFooter({ text: FOOTER });
 
         interaction.editReply({ embeds: [_embedPomoc] });
-        interaction.deleteReply();
     },
 };
