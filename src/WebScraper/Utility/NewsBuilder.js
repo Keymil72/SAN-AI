@@ -1,10 +1,13 @@
+// TODO - poprawić model by wpasował się do bazy danych
 class NewsBuilder{
     constructor(){
         this.news = {
             title: '',
             description: '',
-            link: '',
-            source: ''
+            targetsite: '',
+            fromsite: '',
+            directlink: ''
+
         };
     }
 
@@ -18,16 +21,21 @@ class NewsBuilder{
         return this;
     }
 
-    setLink(link){
-        this.news.link = link;
+    setTargetLink(link){
+        this.news.targetsite = link;
         return this;
     }
 
-    setSource(source){
-        this.news.source = source;
+    setFromSite(source){
+        this.news.fromsite = source;
         return this;
     }
 
+    setDirectLink(link){
+        this.news.directlink = link;
+        return this;
+    }
+    
     build(){
         return this.news;
     }

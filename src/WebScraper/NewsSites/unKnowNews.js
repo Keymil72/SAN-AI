@@ -27,10 +27,10 @@ async function GetNews() {
 
             const task = (async () => {
                 if (_content(this).find('strong').text() !== '') {
-                    const _title = _content(this).find('strong').text();
+                    const _title = _content(this).find('strong').text().replace(/'/g, "''").replace(/"/g, "");
 
                     let _link = _content(this).find('a').attr('href');
-                    let _description = _content(this).find('span').text();
+                    let _description = _content(this).find('span').text().replace(/'/g, "''").replace(/"/g, "");
 
                     _description = _description.slice(_description.indexOf('INFO: ') + 6);
                     _link = await urlValidator.isUrlValid(_link) ? _link : url;
@@ -38,8 +38,10 @@ async function GetNews() {
                     const news = new newsBuilder.NewsBuilder()
                         .setTitle(_title)
                         .setDescription(_description)
-                        .setLink(_link)
-                        .setSource(url)
+                        .setTargetSite(_link)
+                        .setFromSite(url)
+                        // TODO - add direct link to news like "https://mrugalski.pl/nl/wu/qZJ892FLFsTwGv892JkcLw8QZA"
+                        .setDirectLink(_link)
                         .build();
 
                     newsList.push(news);

@@ -35,13 +35,15 @@ async function InserNewsFromList(newsList) {
 
         if (!DB) throw new Error("Database connection is not established.");
 
-        newsList.forEach(async (news) => {
+        await newsList.forEach(async (news) => {
             if (await IsNewsExists(news.title)) {
                 logger.LogWarn(`News already exists: ${news.title}`, __filename);
             } else {
                 _notExistingNews.push(news);
             }
         });
+
+        
 
         const result = await DB
             .insertInto('news')

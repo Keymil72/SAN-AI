@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 
 const logger = require("../../Features/Utility/Logger");
-const news = require("../../WebScrapper/Utility/News");
+const news = require("../../WebScraper/Utility/News");
 
 module.exports = {
     data: new SlashCommandBuilder()
