@@ -43,8 +43,6 @@ async function InserNewsFromList(newsList) {
             }
         });
 
-        // TODO - dodać dodanie do pending news powiązania albo w bazie triggera i procedure
-
         const result = await DB
             .insertInto('news')
             .values(_notExistingNews)

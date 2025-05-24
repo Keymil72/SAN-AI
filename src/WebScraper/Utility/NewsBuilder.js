@@ -4,6 +4,7 @@ class NewsBuilder{
         this.news = {
             title: '',
             description: '',
+            status: 1,
             targetsite: '',
             fromsite: '',
             directlink: ''
@@ -37,6 +38,7 @@ class NewsBuilder{
     }
 
     build(){
+        this.news.status = 1;
         return this.news;
     }
 }
