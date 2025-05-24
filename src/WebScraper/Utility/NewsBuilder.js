@@ -21,7 +21,7 @@ class NewsBuilder{
         return this;
     }
 
-    setTargetLink(link){
+    setTargetSite(link){
         this.news.targetsite = link;
         return this;
     }
@@ -35,7 +35,7 @@ class NewsBuilder{
         this.news.directlink = link;
         return this;
     }
-    
+
     build(){
         return this.news;
     }
