@@ -19,15 +19,11 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction) {
-        const client = interaction.client;
-        let member = interaction.member;
         const ch = interaction.channel;
 
         const overload = await interaction.options.getString('overload') == null ? '' : interaction.options.getString('overload');
         const messageAmount = interaction.options.getInteger('message_amount');
-        let chString = ch.isThread() ? `Wątek: ${ch.name}` : ch.toString();
-        const commandData = "``` " + interaction.commandName + " " + messageAmount + " " + overload + " ```";
-
+        await interaction.reply({ content: 'Ja tu tylko sprzątam... 🧹', ephemeral: true });
 
         if (ch.isTextBased()) {
             let messagesDeleted = 0;
@@ -49,11 +45,20 @@ module.exports = {
                         }
                     });
                 });
+            }else if (overload != null && overload.toLowerCase() === 'all') {
+                for (let i = 0; i < 20; i++) {
+                    await ch.bulkDelete(100).then(deletedMessages => {
+                        messagesDeleted = deletedMessages.size;
+                        interaction.editReply({ content: `Usunięto <= ${messagesDeleted} wiadomości z kanału ${ch.name}.`, ephemeral: true });
+                    }).catch(err => {
+                        console.error('Błąd podczas usuwania wiadomości:', err);
+                    });
+                }
             }
         } else {
-            await interaction.reply({ content: 'Nie podano liczby wiadomości do usunięcia', ephemeral: true });
+            await interaction.editReply({ content: 'Nie podano liczby wiadomości do usunięcia', ephemeral: true });
             return;
         }
-        await interaction.reply({ content: 'Ja tu tylko sprzątam... 🧹', ephemeral: true });
+        await interaction.editReply({ content: 'Ja tu tylko sprzątam... 🧹', ephemeral: true });
     },
 };

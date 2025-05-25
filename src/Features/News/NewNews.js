@@ -45,18 +45,18 @@ async function AutoUpdateToAccepted() {
     try {
         let _result = await getter.GetNews(STATUS.PENDING.text);
 
-        _result?.forEach(async (row) => {
+        for(let _row in _result) {
             let _messageId = getter.GetPendingNewsRecordByNewsId(row.id);
             let _message = client.channels.cache.get(newsChannelId).messages.fetch(_messageId);
 
-            if (_message == null) throw new Error(`No message found related to newsId: ${row.id}.`);
+            if (_message == null) throw new Error(`No message found related to newsId: ${_row.id}.`);
 
             await _message.delete();
 
             if (_currentDate > _appearanceDate) {
                 await updater.UpdateNewsStatusById(newsId, STATUS.ACCEPTED.text);
             }
-        });
+        };
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }

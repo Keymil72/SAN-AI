@@ -13,12 +13,12 @@ class NewsBuilder{
     }
 
     setTitle(title){
-        this.news.title = title.replace(/'/g, "''").replace(/"/g, "");
+        this.news.title = title.replace(/'/g, "").replace(/"/g, "");
         return this;
     }
 
     setDescription(description){
-        this.news.description = description.replace(/'/g, "''").replace(/"/g, "");
+        this.news.description = description.replace(/'/g, "").replace(/"/g, "");
         return this;
     }
 
