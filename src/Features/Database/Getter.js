@@ -36,6 +36,7 @@ async function GetNewsById(id) {
 
         const result = await DB
             .selectFrom("news")
+            .selectAll()
             .where("id", "=", id)
             .limit(1)
             .execute();
@@ -47,17 +48,16 @@ async function GetNewsById(id) {
     }
 }
 
-// TODO - tests needed
 async function GetNewsByTitle(title) {
     const DB = await dbConnection.getDB();
 
     try {
         if (!DB) throw new Error("Database connection is not established.");
-        const value = title;
 
         const result = await DB
             .selectFrom("news")
-            .where(sql`title = ${value}`)
+            .selectAll()
+            .where("title", "=", title)
             .limit(1)
             .execute();
 

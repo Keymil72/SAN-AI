@@ -8,7 +8,7 @@ const newsBuilder = require('../Utility/NewsBuilder');
 
 const url = 'https://www.techradar.com/computing/software/artificial-intelligence';
 
-// TODO - tests needed
+// TODO - tests needed -- 0 news inserted to DB
 async function GetNews(){
     logger.LogInfo('Trying to get news from techradar...');
 

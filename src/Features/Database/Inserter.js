@@ -29,9 +29,7 @@ async function InserNewsFromList(newsList) {
         if (!DB) throw new Error("Database connection is not established.");
 
         for(const news of newsList){
-            if (await IsNewsExists(news.title)) {
-                logger.LogWarn(`News already exists: ${news.title}`, __filename);
-            } else {
+            if (!await IsNewsExists(news.title)) {
                 _notExistingNews.push(news);
             }
         }
@@ -73,7 +71,6 @@ async function InsertRecordToPendingNewsTable(messageId, newsId) {
 async function IsNewsExists(title) {
     try{
         const result = await getter.GetNewsByTitle(title);
-        console.log(result);
         return result[0]?.id != undefined;
     }catch(ex) {
         logger.LogError(ex.message, ex.stack);
