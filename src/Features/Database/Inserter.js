@@ -3,6 +3,7 @@ const logger = require("../Utility/Logger");
 const getter = require("./Getter");
 
 // TODO - tests needed
+// TODO - dodać sprawdzenie czy news już istnieje w bazie danych
 async function InserNews(news) {
     const DB = await dbConnection.getDB();
 
@@ -36,19 +37,21 @@ async function InserNewsFromList(newsList) {
         if (!DB) throw new Error("Database connection is not established.");
 
         await newsList.forEach(async (news) => {
-            if (await IsNewsExists(news.title)) {
+            if (await IsNewsExists(news.title) == undefined) {
                 logger.LogWarn(`News already exists: ${news.title}`, __filename);
             } else {
                 _notExistingNews.push(news);
             }
         });
 
-        const result = await DB
-            .insertInto('news')
-            .values(_notExistingNews)
-            .executeTakeFirst()
+        if (_notExistingNews.length > 0) {
+            const result = await DB
+                .insertInto('news')
+                .values(_notExistingNews)
+                .executeTakeFirst()
 
-        return result;
+            return result;
+        }
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }
@@ -77,7 +80,8 @@ async function InsertRecordToPendingNewsTable(messageId, newsId) {
 // TODO - tests needed
 async function IsNewsExists(title) {
     getter.GetNewsByTitle(title).then((result) => {
-        return result;
+        console.log(result[0].id);
+        return result[0].id;
     }).catch((ex) => {
         logger.LogError(ex.message, ex.stack);
     });

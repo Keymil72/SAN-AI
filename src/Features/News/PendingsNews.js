@@ -6,7 +6,6 @@ const getter = require("../Database/Getter");
 const updater = require("../Database/Updater");
 const logger = require("../Utility/Logger");
 const embed = require("../Formaters/Embed");
-const { client } = require("../../Main");
 
 async function Send() {
     try {
