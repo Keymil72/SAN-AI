@@ -2,8 +2,6 @@ const dbConnection = require("./DBConnection");
 const logger = require("../Utility/Logger");
 const getter = require("./Getter");
 
-// TODO - tests needed
-// TODO - dodać sprawdzenie czy news już istnieje w bazie danych
 async function InserNews(news) {
     const DB = await dbConnection.getDB();
 
@@ -13,12 +11,7 @@ async function InserNews(news) {
 
         const result = await DB
             .insertInto('news')
-            .values({
-                title: news.title,
-                link: news.link,
-                description: news.description,
-                source: news.source
-            })
+            .values(news)
             .executeTakeFirst()
 
         return result;
@@ -27,7 +20,6 @@ async function InserNews(news) {
     }
 }
 
-// TODO - tests needed and remove "'" from title and description with getter posibility, _notExistingNews == 0
 async function InserNewsFromList(newsList) {
     const DB = await dbConnection.getDB();
 
@@ -36,13 +28,13 @@ async function InserNewsFromList(newsList) {
 
         if (!DB) throw new Error("Database connection is not established.");
 
-        await newsList.forEach(async (news) => {
-            if (await IsNewsExists(news.title) == undefined) {
+        for(const news of newsList){
+            if (await IsNewsExists(news.title)) {
                 logger.LogWarn(`News already exists: ${news.title}`, __filename);
             } else {
                 _notExistingNews.push(news);
             }
-        });
+        }
 
         if (_notExistingNews.length > 0) {
             const result = await DB
@@ -50,8 +42,9 @@ async function InserNewsFromList(newsList) {
                 .values(_notExistingNews)
                 .executeTakeFirst()
 
-            return result;
+            return result == undefined;
         }
+
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }
@@ -77,14 +70,15 @@ async function InsertRecordToPendingNewsTable(messageId, newsId) {
     }
 }
 
-// TODO - tests needed
 async function IsNewsExists(title) {
-    getter.GetNewsByTitle(title).then((result) => {
-        console.log(result[0].id);
-        return result[0].id;
-    }).catch((ex) => {
+    try{
+        const result = await getter.GetNewsByTitle(title);
+        console.log(result);
+        return result[0]?.id != undefined;
+    }catch(ex) {
         logger.LogError(ex.message, ex.stack);
-    });
+        return false;
+    };
 }
 
 module.exports = { InserNews, InserNewsFromList, InsertRecordToPendingNewsTable };

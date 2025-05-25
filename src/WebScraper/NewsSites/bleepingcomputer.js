@@ -8,19 +8,19 @@ const newsBuilder = require('../Utility/NewsBuilder');
 
 const url = 'https://www.bleepingcomputer.com/';
 
-// TODO - tests needed
 async function GetNews(){
     logger.LogInfo('Trying to get news from bleepingComputer...');
 
     try {
-        const newsList = [];
-        const response = await axios(url);
-        const _html = response.data;
-        let _content = cheerio.load(_html);
+        let newsList = [];
+        const RESPONSE = await axios(url);
+        let _finalUrl = RESPONSE.request.res ? RESPONSE.request.res.responseUrl : RESPONSE.request.responseURL;
+        const _HTML = RESPONSE.data;
+        let _content = cheerio.load(_HTML);
 
         const tasks = [];
 
-        _content('#bc-home-news-main-wrap', _html)
+        _content('#bc-home-news-main-wrap', _HTML)
             .first()
             .find('li')
             .each( async function (i) {
@@ -28,6 +28,7 @@ async function GetNews(){
             const task = (async () => {
                 if (_content(this).find('.bc_latest_news_text')) {
                     let _title = _content(this).find('h4').find('a').text();
+
                     if (_title.length < 1)
                         return;
 
@@ -39,8 +40,9 @@ async function GetNews(){
                     const news = new newsBuilder.NewsBuilder()
                         .setTitle(_title)
                         .setDescription(_description)
-                        .setLink(_link)
-                        .setSource(url)
+                        .setTargetSite(_link)
+                        .setFromSite(url)
+                        .setDirectLink(_finalUrl)
                         .build();
 
                    newsList.push(news);
@@ -51,7 +53,6 @@ async function GetNews(){
         });
 
         await Promise.all(tasks);
-
         await inserter.InserNewsFromList(newsList);
 
         logger.LogInfo(`${newsList.length} news from bleepingcomputer inserted to DB.`);

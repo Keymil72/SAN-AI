@@ -1,10 +1,10 @@
-// TODO - poprawić model by wpasował się do bazy danych
+const { STATUS } = require("../../Features/Database/Enums/Statuses");
 class NewsBuilder{
     constructor(){
         this.news = {
             title: '',
             description: '',
-            status: '',
+            status: STATUS.NEW.text,
             targetsite: '',
             fromsite: '',
             directlink: ''
@@ -13,12 +13,12 @@ class NewsBuilder{
     }
 
     setTitle(title){
-        this.news.title = title;
+        this.news.title = title.replace(/'/g, "''").replace(/"/g, "");
         return this;
     }
 
     setDescription(description){
-        this.news.description = description;
+        this.news.description = description.replace(/'/g, "''").replace(/"/g, "");
         return this;
     }
 
@@ -37,8 +37,15 @@ class NewsBuilder{
         return this;
     }
 
+    setStatus(status){
+        if (!Object.values(STATUS).some(item => item.text === status)) {
+            throw new Error(`Invalid status: ${status}`);
+        }
+        this.news.status = status;
+        return this;
+    }
+
     build(){
-        this.news.status = 'pending';
         return this.news;
     }
 }

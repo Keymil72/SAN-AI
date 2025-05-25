@@ -2,7 +2,7 @@ const { Events, ActivityType } = require("discord.js");
 
 const cron = require("node-cron");
 
-const pendingsNews = require("../../Features/News/PendingsNews");
+const pendingsNews = require("../../Features/News/NewNews");
 const acceptedNews = require("../../Features/News/AcceptedNews");
 const logger = require("../../Features/Utility/Logger");
 

@@ -53,7 +53,7 @@ async function GetNewsByTitle(title) {
 
     try {
         if (!DB) throw new Error("Database connection is not established.");
-        const value = title.replace(/'/g, "''");
+        const value = title;
 
         const result = await DB
             .selectFrom("news")

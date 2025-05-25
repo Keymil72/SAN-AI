@@ -10,7 +10,7 @@ const embed = require("../Formaters/Embed");
 async function Send() {
     try {
         let _channel = client.channels.cache.get(newsChannelId);
-        let _result = await getter.GetNews(STATUS.PENDING.text);
+        let _result = await getter.GetNews(STATUS.NEW.text);
 
         _result?.forEach(async (row) => {
             let _pendingEmbed = await embed.PendingNews(row);
@@ -25,6 +25,16 @@ async function Send() {
             await _message.react("❔")
             await _message.react("❌");
         });
+    } catch (ex) {
+        logger.LogError(ex.message, ex.stack);
+    }
+}
+
+async function UpdateToPending() {
+    try {
+        let _result = await getter.GetNews(STATUS.NEW.text);
+
+        await updater.UpdateNewsStatusFromList(_result, STATUS.PENDING.text);
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }
@@ -52,4 +62,4 @@ async function AutoUpdateToAccepted() {
     }
 }
 
-module.exports = { Send, AutoUpdateToAccepted };
+module.exports = { Send, AutoUpdateToAccepted, UpdateToPending };

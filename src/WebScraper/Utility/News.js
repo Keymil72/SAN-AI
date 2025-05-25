@@ -1,7 +1,7 @@
 const bleepingcomputer = require("../NewsSites/bleepingcomputer");
 const unKnowNews = require("../NewsSites/unKnowNews");
 const logger = require("../../Features/Utility/Logger");
-const pendingNews = require("../../Features/News/PendingsNews");
+const news = require("../../Features/News/NewNews");
 
 async function Get(){
     try {
@@ -9,7 +9,8 @@ async function Get(){
         if (await unKnowNews.GetNews() == null) throw new Error("UnknownNews news is null.");
 
         logger.LogInfo("News successfully fetched and inserted into the database.");
-        await pendingNews.Send();
+        await news.Send();
+        await news.UpdateToPending();
         logger.LogInfo("Pending news sent to the acceptance channel.");
         return true;
     } catch (ex) {

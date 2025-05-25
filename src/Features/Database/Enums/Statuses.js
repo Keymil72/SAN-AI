@@ -25,6 +25,12 @@ const STATUS = Object.freeze({
         emoji: "⭐",
         color: "#183771",
         icon: "https://i.imgur.com/aPopl5M.png"
+    },
+    NEW: {
+        text: "new",
+        emoji: "🆕",
+        color: "#4a148c",
+        icon: "https://i.imgur.com/1k0b2dH.png"
     }
 });
 
