@@ -4,6 +4,7 @@ const { STATUS } = require("../Database/Enums/Statuses");
 const inserter = require("../Database/Inserter");
 const getter = require("../Database/Getter");
 const updater = require("../Database/Updater");
+const acceptedNews = require("./AcceptedNews");
 const logger = require("../Utility/Logger");
 const embed = require("../Formaters/Embed");
 
@@ -43,22 +44,12 @@ async function UpdateToPending() {
 //TODO - Tests needed
 async function AutoUpdateToAccepted() {
     try {
-        let _result = await getter.GetNews(STATUS.PENDING.text);
+        await acceptedNews.Publish();
 
-        for(let _row in _result) {
-            let _messageId = getter.GetPendingNewsRecordByNewsId(row.id);
-            let _message = client.channels.cache.get(newsChannelId).messages.fetch(_messageId);
-
-            if (_message == null) throw new Error(`No message found related to newsId: ${_row.id}.`);
-
-            await _message.delete();
-
-            if (_currentDate > _appearanceDate) {
-                await updater.UpdateNewsStatusById(newsId, STATUS.ACCEPTED.text);
-            }
-        };
+        return true;
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
+        return false;
     }
 }
 

@@ -42,7 +42,7 @@ async function UpdateNewsStatusFromList(newsList, status) {
         const result = await DB
             .updateTable("news")
             .set("status", status)
-            .where("id", "in", newsList.map(news => news.id))
+            .where("id", "in", newsList.map(news => news?.id))
             .execute();
 
         return result;

@@ -7,7 +7,7 @@ const GEN_AI = new GoogleGenerativeAI(gemini_API_KEY);
 
 async function AskGeminiForPickNews(newsList) {
     try {
-        const _NEWS_TITLES = GetNewsTitles(newsList);
+        const _NEWS_TITLES = await GetNewsTitles(newsList);
 
         if (_NEWS_TITLES?.length === 0) throw new Error("No news titles found.");
 
@@ -27,11 +27,11 @@ async function AskGeminiForPickNews(newsList) {
 
 // TODO - test needed
 
-function GetNewsTitles(newsList){
+async function GetNewsTitles(_newsList){
     let newsTitles = [];
 
-    newsList?.each((news) => {
-        newsTitles.push(news.title);
+    _newsList.forEach(_news => {
+        newsTitles.push(_news.title);
     });
 
     return newsTitles;
@@ -40,18 +40,17 @@ function GetNewsTitles(newsList){
 async function GetIntrestingNews(newsList){
     let interestingNewsList = [];
 
-    AskGeminiForPickNews(newsList).then((response) => {
-        let _ids = response.split(',');
-
-        _ids.each((id) => {
-            interestingNewsList.push(newsList[id]);
-        });
+    try {
+        let _response = await AskGeminiForPickNews(newsList)
+        for(let _id in _response.split(',')) {
+            interestingNewsList.push(newsList[_id]);
+        };
 
         return interestingNewsList;
-    }).catch((ex) => {
+    } catch (ex) {
         logger.LogError(ex.message, ex.stack);
-    });
-
+        return null;
+    }
 
 }
 

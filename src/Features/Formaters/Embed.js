@@ -36,6 +36,7 @@ async function PendingNews(news) {
 
 async function News(news) {
     try {
+        console.log(news);
         let _appearanceDate = time.FormatToWarsaw(news.appearancedate);
         let _lastUpdate = time.FormatToWarsaw(news.lastupdate);
 
