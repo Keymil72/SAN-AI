@@ -31,11 +31,44 @@ async function Send() {
     }
 }
 
+async function SendAcceptedNews() {
+    try {
+        let _channel = client.channels.cache.get(newsChannelId);
+        let _result = await getter.GetNews(STATUS.SENT.text);
+
+        _result?.forEach(async (row) => {
+            let _acceptedEmbed = await embed.News(row);
+
+            if (_acceptedEmbed == null) throw new Error("Embed is not well formatted.");
+
+            let _message = await _channel.send({ embeds: [_acceptedEmbed] });
+
+            await inserter.InsertRecordToPendingNewsTable(_message.id, row.id);
+
+            await _message.react("✅")
+            await _message.react("❔")
+            await _message.react("❌");
+        });
+    } catch (ex) {
+        logger.LogError(ex.message, ex.stack);
+    }
+}
+
 async function UpdateToPending() {
     try {
         let _result = await getter.GetNews(STATUS.NEW.text);
 
         await updater.UpdateNewsStatusFromList(_result, STATUS.PENDING.text);
+    } catch (ex) {
+        logger.LogError(ex.message, ex.stack);
+    }
+}
+
+async function UpdateToAccepted() {
+    try {
+        let _result = await getter.GetNews(STATUS.ACCEPTED.text);
+
+        await updater.UpdateNewsStatusFromList(_result, STATUS.Send.text);
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);
     }
@@ -53,4 +86,4 @@ async function AutoUpdateToAccepted() {
     }
 }
 
-module.exports = { Send, AutoUpdateToAccepted, UpdateToPending };
+module.exports = { Send, SendAcceptedNews, AutoUpdateToAccepted, UpdateToAccepted, UpdateToPending };

@@ -24,4 +24,10 @@ async function Send() {
     logger.LogInfo("Pending news sent to the acceptance channel.");
 }
 
-module.exports = { Get, Send };
+async function SendAcceptedNews() {
+    await news.SendAcceptedNews();
+    await news.UpdateToAccepted();
+    logger.LogInfo("Pending news sent to the acceptance channel.");
+}
+
+module.exports = { Get, Send, SendAcceptedNews };

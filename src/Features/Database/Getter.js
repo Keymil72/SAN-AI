@@ -21,6 +21,8 @@ async function GetNews(status) {
             .selectAll()
             .execute();
 
+        console.log(`Fetched ${result.length} news with status: ${status}`);
+
         return result;
     } catch (ex) {
         logger.LogError(ex.message, ex.stack);

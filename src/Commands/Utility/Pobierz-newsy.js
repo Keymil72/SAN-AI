@@ -13,6 +13,7 @@ module.exports = {
 
         if (await news.Get()){
             interaction.editReply("Newsy zostały pobrane i dodane do bazy danych.");
+            await news.Send();
         }else{
             interaction.editReply("Nie udało się pobrać newsów.");
         }

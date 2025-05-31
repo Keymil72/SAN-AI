@@ -100,4 +100,4 @@ function start() {
 
 start();
 
-module.exports = { client, start };
+module.exports = { start };
