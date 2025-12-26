@@ -29,6 +29,10 @@ module.exports = {
                 {
                     name: "/ustaw-kanal",
                     value: "Ustawia kanał wzależności od opcji, na którym bot będzie wysyłał newsy lub newsy do akceptacji",
+                },
+                {
+                    name: "/ustaw",
+                    value: "Ustawia początkowe parametry bota SAN-AI na serwerze w tym bazę danych (wykonaj raz na początku wgrania bota!)",
                 }
             )
             .setFooter({ text: FOOTER });
