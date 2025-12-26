@@ -21,7 +21,7 @@ async function up() {
     await DB.schema
         .createTable("pendingnews")
             .addColumn("messageid", "bigint", col => col.primaryKey().notNull().unique())
-            .addColumn("newsid", "integer", col => col.notNull())
+            .addColumn("newsid", "integer", col => col.notNull().references("news.id").onDelete("cascade"))
         .execute();
 
     console.log("Table 'pendingnews' created successfully.");
