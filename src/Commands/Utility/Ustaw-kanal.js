@@ -18,7 +18,7 @@ module.exports = {
                 )
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
-        
+
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
